@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 	}
 	else if(comparing_string(argv[1], "read"))
 	{
-		printf("Reading from a File...");
+		printf("Reading from a File...\n");
 		buff = reading_file(argv[2]);
 		printf("FILE data is .......:\n %s", buff);
 		free(buff);	
@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 
 	else if(comparing_string(argv[1], "dccount"))
 	{
-		printf("Counting distinct charactre....");
+		printf("Counting distinct character....\n");
 		local_buff = reading_file(argv[2]);
 		printf("File data is .........\n %s \n", local_buff);
 		dist_char = dist_char_count(local_buff);
@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			printf("There is nothing to read");
+			printf("There is nothing to read.\n");
 		}
 		free(local_buff);
 		free(dist_char);
@@ -62,11 +62,11 @@ int main(int argc, char **argv)
 			printf ("Error: the key file name has not been provided.\n");
 		}
 		
-		printf("encryption is going on............");
+		printf("encryption is going on............\n");
 	
 		local_buff = reading_file(argv[2]);
 		printf("File data is .........\n %s \n", local_buff);
-		printf("Counting distinct charactre....");
+		printf("Counting distinct charactre....\n");
 		dist_char = dist_char_count(local_buff);
 		dis_length = 0;
 		if(dist_char != NULL)
@@ -112,7 +112,7 @@ int main(int argc, char **argv)
 			printf ("Error: the key file name has not been provided.\n");
 		}
 		
-		printf("Decryption is going on............");
+		printf("Decryption is going on............\n");
 
 		ret_value = -1;
 		ret_value = decrypt_file (argv[2], argv[3]);
