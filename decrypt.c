@@ -29,17 +29,18 @@ int decrypt_file( char *file_name, char * key_file_name)
 		case 1:
 			printf("1 bit decryption.\n");
 			ret_value = -1;
+			printf ("No need to decrypt.\n");
 //			ret_value = decrypt1_file (file_name , key_file_name);
 			break;
 		case 2:
                         printf("2 bit decryption.\n");
                         ret_value = -1;
-  //                      ret_value = decrypt2_file (file_name , key_file_name);
+                        ret_value = decrypt2_file (file_name , key_file_name);
                         break;
 		case 3:
                         printf("3 bit decryption.\n");
                         ret_value = -1;
-    //                    ret_value = decrypt3_file (file_name , key_file_name);
+                        ret_value = decrypt3_file (file_name , key_file_name);
                         break;
 		case 4:
                         printf("4 bit decryption.\n");
@@ -49,17 +50,17 @@ int decrypt_file( char *file_name, char * key_file_name)
 		case 5:
                         printf("5 bit decryption.\n");
                         ret_value = -1;
-        //                ret_value = decrypt5_file (file_name , key_file_name);
+                        ret_value = decrypt5_file (file_name , key_file_name);
                         break;
 		case 6:
                         printf("6 bit decryption.\n");
                         ret_value = -1;
-          //              ret_value = decrypt6_file (file_name , key_file_name);
+                       ret_value = decrypt6_file (file_name , key_file_name);
                         break;
 		case 7:
                         printf("7 bit decryption.\n");
                         ret_value = -1;
-            //            ret_value = decrypt7_file (file_name , key_file_name);
+                        ret_value = decrypt7_file (file_name , key_file_name);
                         break;
 		case 8:
                         printf("8 bit decryption.\n");

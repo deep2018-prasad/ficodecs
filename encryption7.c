@@ -38,7 +38,7 @@ int encrypt7_file (char * file_name, char * key_file)
 		if(file_data[i] == '\0')
 		{
 			temp_ch = temp_ch ^ temp_ch;
-			temp_ch = (unsigned char) 127;
+			temp_ch = d = (unsigned char) 127;
 			temp_ch = temp_ch << 1;
 			temp_ch = temp_ch >> 7;
 			file_ch = file_ch | temp_ch;
@@ -54,7 +54,7 @@ int encrypt7_file (char * file_name, char * key_file)
 		
 		temp_ch = temp_ch ^ temp_ch;
 		n = find_index (key_file_data, file_data[i]);
-		temp_ch = (unsigned char) n;
+		temp_ch = d = (unsigned char) n;
 		temp_ch = temp_ch << 1;
 		temp_ch = temp_ch >> 7;
 		file_ch = file_ch | temp_ch;
@@ -63,8 +63,6 @@ int encrypt7_file (char * file_name, char * key_file)
 		d = d << 2;
 		file_ch = file_ch | d;
 		d = d ^ d;
-		write(fd , &file_ch, 1);
-		file_ch = file_ch ^ file_ch;
 		i++;
 		
 		if(file_data[i] == '\0')
@@ -95,14 +93,12 @@ int encrypt7_file (char * file_name, char * key_file)
 		d = d << 3;
 		file_ch = file_ch | d;
 		d = d ^ d;
-		write(fd , &file_ch, 1);
-		file_ch = file_ch ^ file_ch;
                 i++;
 		
 		if(file_data[i] == '\0')
                 {
                         temp_ch = temp_ch ^ temp_ch;
-                        temp_ch = (unsigned char)127;
+                        temp_ch = d = (unsigned char)127;
                         temp_ch = temp_ch << 1;
                         temp_ch = temp_ch >> 5;
                         file_ch = file_ch | temp_ch;
@@ -118,27 +114,28 @@ int encrypt7_file (char * file_name, char * key_file)
 		
 		temp_ch = temp_ch ^ temp_ch;
 		n = find_index (key_file_data, file_data[i]);
-                temp_ch = (unsigned char) n;
+                temp_ch = d = (unsigned char) n;
                 temp_ch = temp_ch << 1;
                 temp_ch = temp_ch >> 5;
                 file_ch = file_ch | temp_ch;
-                write( fd, &file_ch, 1);		
+                write( fd, &file_ch, 1);
+		file_ch = file_ch ^ file_ch;
+		
 		d = d << 4;
 		file_ch = file_ch | d;
                 d = d ^ d;
-                write(fd , &file_ch, 1);
-                file_ch = file_ch ^ file_ch;
                 i++;
 
 		if(file_data[i] == '\0')
                 {
                         temp_ch = temp_ch ^ temp_ch;
-                        temp_ch = (unsigned char)127;
+                        temp_ch = d = (unsigned char)127;
                         temp_ch = temp_ch << 1;
 			temp_ch = temp_ch >> 4;
                         file_ch = file_ch | temp_ch;
                         write(fd, &file_ch, 1);
                         file_ch = file_ch ^ file_ch;
+			
 			d = d << 5;
 			file_ch = file_ch | d;
 			d = d ^ d;
@@ -149,7 +146,7 @@ int encrypt7_file (char * file_name, char * key_file)
 
 		temp_ch = temp_ch ^ temp_ch;
 		n = find_index (key_file_data, file_data[i]);
-                temp_ch = (unsigned char)n;
+                temp_ch = d = (unsigned char)n;
                 temp_ch = temp_ch << 1;
                 temp_ch = temp_ch >> 4;
                 file_ch = file_ch | temp_ch;
@@ -158,8 +155,6 @@ int encrypt7_file (char * file_name, char * key_file)
 		d = d << 5;
 		file_ch = file_ch | d;
 		d = d ^ d;
-		write(fd , &file_ch, 1);
-		file_ch = file_ch ^ file_ch;
 		i++;
 
                 if(file_data[i] == '\0')
@@ -171,6 +166,7 @@ int encrypt7_file (char * file_name, char * key_file)
                         file_ch = file_ch | temp_ch;
                         write(fd, &file_ch, 1);
                         file_ch = file_ch ^ file_ch;
+
 			d = d << 6;
 			file_ch = file_ch | d;
 			d = d ^ d;
@@ -182,7 +178,6 @@ int encrypt7_file (char * file_name, char * key_file)
 		temp_ch = temp_ch ^ temp_ch;
                 n = find_index (key_file_data, file_data[i]);
                 temp_ch = d =(unsigned char)n ;
-		n = 0;
                 temp_ch = temp_ch << 1;
                 temp_ch = temp_ch >> 3;
                 file_ch = file_ch | temp_ch;
@@ -191,14 +186,12 @@ int encrypt7_file (char * file_name, char * key_file)
 		d = d << 6;
 		file_ch = file_ch | d;
 		d = d ^ d;
-		write(fd , &file_ch, 1);
-		file_ch = file_ch ^ file_ch;
                 i++;
 		
 		if(file_data[i] == '\0')
                 {
                         temp_ch = temp_ch ^ temp_ch;
-                        temp_ch = (unsigned char)127;
+                        temp_ch = d = (unsigned char)127;
                         temp_ch = temp_ch << 1;
                         temp_ch = temp_ch >> 2;
                         file_ch = file_ch | temp_ch;
@@ -214,7 +207,7 @@ int encrypt7_file (char * file_name, char * key_file)
 
                 temp_ch = temp_ch ^ temp_ch;
                 n = find_index (key_file_data, file_data[i]);
-                temp_ch = (unsigned char)n;
+                temp_ch = d = (unsigned char)n;
                 temp_ch = temp_ch << 1;
                 temp_ch = temp_ch >> 2;
                 file_ch = file_ch | temp_ch;
@@ -223,8 +216,6 @@ int encrypt7_file (char * file_name, char * key_file)
 		d = d << 7;
                 file_ch = file_ch | d;
                 d = d ^ d;
-                write(fd , &file_ch, 1);
-                file_ch = file_ch ^ file_ch;
                 i++;
 
 		if(file_data[i] == '\0')
@@ -246,6 +237,7 @@ int encrypt7_file (char * file_name, char * key_file)
                 temp_ch = temp_ch >> 1;
                 file_ch = file_ch | temp_ch;
                 write( fd, &file_ch, 1);
+		file_ch = file_ch ^ file_ch;
                 i++;
 
 		if(file_data[i] == '\0')

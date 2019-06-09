@@ -27,7 +27,8 @@ int encrypt_file (char * file_name, char * key_file_name)
 		case 1:
 			printf ("1 bit encryption\n");
 			ret_value = -1;
-			ret_value = encrypt1_file(file_name, key_file_name);
+			printf ("No need to encrypt.\n");
+			//ret_value = encrypt1_file(file_name, key_file_name);
 			break;
 		
 		case 2:

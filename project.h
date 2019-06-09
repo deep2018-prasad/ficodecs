@@ -21,5 +21,9 @@ extern int encrypt6_file (char *file_name, char *key_file);
 extern int encrypt7_file (char *file_name, char *key_file);
 extern int encrypt1_file (char *file_name, char *key_file);
 extern int decrypt_file( char *file_name, char * key_file_name);
+extern int decrypt2_file (char *file_name, char *key_file_name);
+extern int decrypt3_file (char *file_name, char *key_file_name);
 extern int decrypt4_file (char *file_name, char *key_file_name);
-
+extern int decrypt5_file (char *file_name, char *key_file_name);
+extern int decrypt6_file (char *file_name, char *key_file_name);
+extern int decrypt7_file (char *file_name, char *key_file_name);
