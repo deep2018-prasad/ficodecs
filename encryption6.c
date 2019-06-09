@@ -9,9 +9,11 @@ int encrypt6_file (char * file_name, char * key_file)
 	char * key_file_data;
 	
 	key_file_data = reading_file(key_file);
+
+	printf ("File data is:\n%s\n key_file_data is:\n%s\n", file_data, key_file_data);
 	
 	int i, j, k;
-	unsigned char file_ch, temp_ch , d;
+	unsigned char file_ch, temp_ch;
 	
 	i = 0;
 	j = 0;	
@@ -21,92 +23,123 @@ int encrypt6_file (char * file_name, char * key_file)
 	
 	enc_file_name = str_concatanate (file_name, "_encrypted");
 	int fd;
-	fd = open(enc_file_name,O_CREAT | O_RDWR);
+	fd = open(enc_file_name, O_CREAT | O_RDWR);
 	
 	while(1)
 	{
 		file_ch = file_ch ^ file_ch;
 		temp_ch = temp_ch ^ temp_ch;
+		n = 0;
 		n = find_index (key_file_data, file_data[i]);
 		temp_ch = (unsigned char) n;
 		temp_ch = temp_ch << 2;
 		file_ch = file_ch | temp_ch;
+		temp_ch ^=  temp_ch;
 		i++;
 		
 		if(file_data[i] == '\0')
 		{
-			temp_ch = temp_ch ^ temp_ch;
-			temp_ch = (unsigned char) 61;
+			temp_ch = 63;
 			temp_ch = temp_ch << 2;
 			temp_ch = temp_ch >> 6;
 			file_ch = file_ch | temp_ch;
+			temp_ch = temp_ch ^ temp_ch;
 			write( fd, &file_ch, 1);
-			file_ch = file_ch ^ file_ch;
-			d = d << 4;
-                        file_ch = file_ch | d;
-                        d = d ^ d;
-                        write(fd , &file_ch, 1);
-                        file_ch = file_ch ^ file_ch;
+			file_ch ^= file_ch;
+			temp_ch = 63;
+			temp_ch = temp_ch << 4;
+                        file_ch = file_ch | temp_ch;
+                        temp_ch = temp_ch ^ temp_ch;
+			 write(fd , &file_ch, 1);
+			 file_ch = file_ch ^ file_ch;
 			break;
 		}
+		n = 0;
 		n = find_index (key_file_data, file_data[i]);
-		temp_ch = temp_ch ^ temp_ch;
+		
 		temp_ch = (unsigned char) n;
 		temp_ch = temp_ch << 2;
 		temp_ch = temp_ch >> 6;
 		file_ch = file_ch | temp_ch;
+		temp_ch = temp_ch ^ temp_ch;
 		write( fd, &file_ch, 1);
 		file_ch = file_ch ^ file_ch;
-		d = d << 4;
-                file_ch = file_ch | d;
-                d = d ^ d;
-		write(fd , &file_ch, 1);
-               	file_ch = file_ch ^ file_ch;
+		
+		temp_ch = (unsigned char) n;
+		temp_ch = temp_ch << 4;			
+		file_ch = file_ch | temp_ch;
+              	temp_ch = temp_ch ^ temp_ch;
 		i++;
 		
 		if(file_data[i] == '\0')
 		{
-			temp_ch = temp_ch ^ temp_ch;
-			temp_ch = (unsigned char)61;
+			temp_ch = 63;
+		
 			temp_ch = temp_ch << 2;
 			temp_ch = temp_ch >> 4;
+			
 			file_ch = file_ch | temp_ch;
+			temp_ch = temp_ch ^ temp_ch;
 			write(fd, &file_ch, 1);
 			file_ch = file_ch ^ file_ch;
-			d = d << 2;
-                	file_ch = file_ch | d;
-                	d = d ^ d;
+			
+			temp_ch = 63;
+			temp_ch = temp_ch << 6;
+                	file_ch = file_ch | temp_ch;
+                	temp_ch = temp_ch ^ temp_ch;
 			write(fd , &file_ch, 1);
                		file_ch = file_ch ^ file_ch;
 			break;
 		}
-		
+		n = 0;
 		n = find_index (key_file_data, file_data[i]);
-		temp_ch = temp_ch ^ temp_ch;
                 temp_ch = (unsigned char) n;
                 temp_ch = temp_ch << 2;
                 temp_ch = temp_ch >> 4;
+				
                 file_ch = file_ch | temp_ch;
+              	temp_ch = temp_ch ^ temp_ch;
                 write( fd, &file_ch, 1);
 		file_ch = file_ch ^ file_ch;
-		d = d << 2;
-                file_ch = file_ch | d;
-                d = d ^ d;
-		write(fd , &file_ch, 1);
-               	file_ch = file_ch ^ file_ch;
+		
+		temp_ch = (unsigned char) n;
+		temp_ch = temp_ch << 6;
+                file_ch = file_ch | temp_ch;
+                temp_ch = temp_ch ^ temp_ch;
                 i++;
 		
 		if(file_data[i] == '\0')
-                {
-                        temp_ch = temp_ch ^ temp_ch;
-                        temp_ch = (unsigned char)61;
-                        temp_ch = temp_ch << 2;
-                        file_ch = file_ch | temp_ch;
-                        write(fd, &file_ch, 1);
-                        file_ch = file_ch ^ file_ch;
-                        break;
+                { 
+			temp_ch = 63;		
+			temp_ch = temp_ch << 2;
+			temp_ch = temp_ch >> 2;
+			file_ch = file_ch | temp_ch;
+			temp_ch = temp_ch ^ temp_ch;
+			write(fd, &file_ch, 1);
+			file_ch = file_ch ^ file_ch;
+			break;
                 }
 		
+		n = find_index (key_file_data, file_data[i]);
+		temp_ch = (unsigned char)n;
+		temp_ch = temp_ch << 2;
+		temp_ch = temp_ch >> 2;
+		file_ch = file_ch | temp_ch;
+		temp_ch = temp_ch ^ temp_ch;
+		write (fd, &file_ch, 1);
+		file_ch = file_ch ^ file_ch;
+		i++;
+		
+		if (file_data[i] == '\0')
+		{
+			temp_ch = 63;
+			temp_ch = temp_ch << 2;
+			file_ch = file_ch | temp_ch;
+			temp_ch = temp_ch ^ temp_ch;
+			write (fd, &file_ch, 1);
+			file_ch = file_ch ^ file_ch;
+			break;
+		}
 		
 	}
 	free (file_data);

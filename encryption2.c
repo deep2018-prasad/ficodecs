@@ -23,44 +23,44 @@ int encrypt2_file (char * file_name, char * key_file)
 	enc_file_name = str_concatanate (file_name, "_encrypted");
 	int fd;
 	fd = open(enc_file_name,O_CREAT | O_RDWR);
-	
+        fd = open (enc_file_name, O_CREAT | O_RDWR);
 	while(1)
 	{
 		file_ch = file_ch ^ file_ch;
-		temp_ch = temp_ch ^ temp_ch;
 		n = find_index (key_file_data, file_data[i]);
 		temp_ch = (unsigned char) n;
 		temp_ch = temp_ch << 6;
+		temp_ch = temp_ch ^ temp_ch;
 		file_ch = file_ch | temp_ch;
+		file_ch = file_ch ^ file_ch;
 		i++;
 		
 		if(file_data[i] == '\0')
 		{
-			temp_ch = temp_ch ^ temp_ch;
 			temp_ch = (unsigned char) 3;
 			temp_ch = temp_ch << 6;
 			temp_ch = temp_ch >> 2;
 			file_ch = file_ch | temp_ch;
+			temp_ch = temp_ch ^ temp_ch;
 			write( fd, &file_ch, 1);
 			file_ch = file_ch ^ file_ch;
 			break;
 		}
 		n = find_index (key_file_data, file_data[i]);
-		temp_ch = temp_ch ^ temp_ch;
 		temp_ch = (unsigned char) n;
 		temp_ch = temp_ch << 6;
 		temp_ch = temp_ch >> 2;
 		file_ch = file_ch | temp_ch;
-		write( fd, &file_ch, 1);
+		temp_ch = temp_ch ^ temp_ch;
 		i++;
 		
 		if(file_data[i] == '\0')
 		{
-			temp_ch = temp_ch ^ temp_ch;
 			temp_ch = (unsigned char)3;
 			temp_ch = temp_ch << 6;
 			temp_ch = temp_ch >> 4;
 			file_ch = file_ch | temp_ch;
+			temp_ch = temp_ch ^ temp_ch;
 			write(fd, &file_ch, 1);
 			file_ch = file_ch ^ file_ch;
 			break;
@@ -72,16 +72,16 @@ int encrypt2_file (char * file_name, char * key_file)
                 temp_ch = temp_ch << 6;
                 temp_ch = temp_ch >> 4;
                 file_ch = file_ch | temp_ch;
-                write( fd, &file_ch, 1);
+		temp_ch = temp_ch ^ temp_ch;
                 i++;
 		
 		if(file_data[i] == '\0')
                 {
-                        temp_ch = temp_ch ^ temp_ch;
                         temp_ch = (unsigned char)3;
                         temp_ch = temp_ch << 6;
                         temp_ch = temp_ch >> 6;
                         file_ch = file_ch | temp_ch;
+			temp_ch = temp_ch ^ temp_ch;
                         write(fd, &file_ch, 1);
                         file_ch = file_ch ^ file_ch;
                         break;
@@ -93,15 +93,16 @@ int encrypt2_file (char * file_name, char * key_file)
                 temp_ch = temp_ch << 6;
                 temp_ch = temp_ch >> 6;
                 file_ch = file_ch | temp_ch;
+		temp_ch = temp_ch ^ temp_ch;
                 write( fd, &file_ch, 1);
                 i++;
 
 		  if(file_data[i] == '\0')
                 {
-                        temp_ch = temp_ch ^ temp_ch;
                         temp_ch = (unsigned char)3;
                         temp_ch = temp_ch << 6;
                         file_ch = file_ch | temp_ch;
+			temp_ch = temp_ch ^ temp_ch;
                         write(fd, &file_ch, 1);
                         file_ch = file_ch ^ file_ch;
                         break;
